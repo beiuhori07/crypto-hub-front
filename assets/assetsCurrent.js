@@ -1,4 +1,4 @@
-
+const baseURL = 'https://crypto-hub-api.herokuapp.com'
 
 const mainContainer = document.querySelector('.main-container')
 const tableContainer = document.querySelector('.assets-table-container')
@@ -17,7 +17,7 @@ tradingDBBtnHeader.addEventListener('click', () => {
 })
 
 const showCurrentAssets = async () => {
-    const { data } = await axios.get(`http://localhost:3000/api/v1/assetsCurrent`, {
+    const { data } = await axios.get(`${baseURL}/api/v1/assetsCurrent`, {
         headers: {
             'Authorization': `Bearer ${token}`
         }
@@ -123,7 +123,7 @@ const verifyUser = async () => {
     // console.log(token)
     try {
 
-        const { data, status } = await axios.post('http://localhost:3000/api/v1/auth/verify', {} , {
+        const { data, status } = await axios.post(`${baseURL}/api/v1/auth/verify`, {} , {
             headers: {
                 'Authorization': `Bearer ${token}`
             },   

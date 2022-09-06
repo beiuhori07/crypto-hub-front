@@ -1,3 +1,4 @@
+const baseURL = 'https://crypto-hub-api.herokuapp.com'
 
 const btcPricePanel = document.querySelector('.coin-last-price-1')
 const ethPricePanel = document.querySelector('.coin-last-price-2')
@@ -115,7 +116,7 @@ const verifyUser = async () => {
     // console.log(token)
     try {
 
-        const { data, status } = await axios.post('http://localhost:3000/api/v1/auth/verify', {} , {
+        const { data, status } = await axios.post(`${baseURL}/api/v1/auth/verify`, {} , {
             headers: {
                 'Authorization': `Bearer ${token}`
             },   
