@@ -1,0 +1,110 @@
+* {
+    background-color: #232222;
+    font-family: "Inter";
+    font-style: normal;
+    font-weight: 400;
+    color: white;
+}
+
+.title-n-logo-container {
+    /* border: 2px red solid; */
+    position: fixed;
+    bottom: 20%;
+    right: 15vw;
+    display: flex;
+    flex-direction: column;
+    gap: 10vh;
+}
+
+.title-container {
+    display: flex;
+    flex-direction: column;
+    /* border: 2px solid red; */
+}
+
+        .title {
+            font-size: 56px;
+            line-height: 70px;
+        }
+        .subtitle {
+            font-size: 20px;
+            line-height: 30px;
+        }
+
+
+.eth-container {
+    display: flex;
+    justify-content: center;
+    /* border: 2px purple solid; */
+}
+
+        .eth {
+            width: 175px;
+            height: 285px;
+            background: url(./images/eth.svg);
+            filter: drop-shadow(75px 39px 18px rgba(0, 0, 0, 0.25));
+        }
+
+.login-container {
+    /* border: 2px red solid; */
+    position: fixed;
+    width: 27vw;
+    left: 13vw;
+    bottom: 20%;
+    display: flex;
+    flex-direction: column;
+    gap: 3vh;
+}
+    .line {
+        width: 100%;
+        background-color: #1C1A1A;
+        border: 2px solid #1C1A1A;
+    }    
+
+    .login-header {
+        font-size: 22px;
+    }
+
+    .login-username, .login-password {
+        background: #353535;
+        border-radius: 7px;
+        height: 5vh;
+        border: none;
+        padding-left: 1.5vw;
+        padding-right: 1.5vw;
+        font-size: 16px;
+        line-height: 20px;
+    }
+    .login-username::placeholder, .login-password::placeholder {
+        color: #fff;
+        opacity: 0.25;
+        font-size: 16px;
+        line-height: 20px;
+    } 
+    .login-username:focus, .login-password:focus {
+        outline: none;
+    } 
+    .login-connect {
+        background: #0145AB;
+        border-radius: 7px;
+        border: none;
+        height: 5vh;
+        font-size: 17px;
+        line-height: 20px;
+    }
+    .login-connect:hover {
+        filter: brightness(85%);
+    }
+
+    .login-header-container {
+        /* border: blue 2px solid; */
+        display: flex;
+        flex-direction: column;
+        gap: 1vh;
+    }
+    
+    .login-header-container-flex-wrapper {
+        /* border: purple 2px solid; */
+        display: flex;
+        flex-direction: row;
+    }

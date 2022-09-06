@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assets</title>
+    <link rel="stylesheet" href="closedTradesList.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="header-container">
+        <div class="water-mark grid-item">0xhori</div>
+        <div class="header-buttons grid-item">
+            <div class="header-buttons-container">
+                <button class="header-btn-assets header-btn">Assets</button>
+                <button class="header-btn-tradingdb header-btn headerBtnSelected">Trading DB</button>
+                <button class="header-btn-opentrades header-btn">Open trades</button>
+                <button class="header-btn-exchanges header-btn">Exchanges</button>
+                <button class="header-btn-watchlist header-btn">Watch list</button>
+                <button class="header-btn-menu header-btn">Main Menu</button>
+            </div>
+        </div>
+        <div class="logout-container grid-item">
+            <button class="logout-btn header-btn">Logout</button>
+        </div>
+    </div>
+    <div class="main-container">
+        <div class="assets-table-container">
+            <!-- <div class="rowWrapper-header"> -->
+                <div class="table-header table-header-first">Symbol</div>
+                <div class="table-header">Direction</div>
+                <div class="table-header">Closed PnL</div>
+                <div class="table-header">Entry Value</div>
+                <div class="table-header">Entry Price</div>
+                <div class="table-header">Exit Price</div>
+                <div class="table-header">Date-Hour</div>
+                <div class="table-header table-header-last">Exchange</div>
+            <!-- </div> -->
+            
+            <!-- <div class="rowWrapper">
+                <div class="table-entry">ETH</div>
+                <div class="table-entry">156$</div>
+                <div class="table-entry">1567$</div>
+                <div class="table-entry">0.1</div>
+                <div class="table-entry">Bybit</div>
+            </div>
+            -->
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="closedTradesList.js"></script>
+</body>
+</html>
