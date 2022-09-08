@@ -5,6 +5,111 @@ const tableContainer = document.querySelector('.assets-table-container')
 const mainMenuBtn = document.querySelector('.header-btn-menu')
 const LogoutBtn = document.querySelector('.logout-btn')
 const AssetsBtnHeader = document.querySelector('.header-btn-assets')
+const last1DayBtn = document.querySelector('.btn-last1day')
+const last7DayBtn = document.querySelector('.btn-last7day')
+const last30DayBtn = document.querySelector('.btn-last30day')
+const allTimeBtn = document.querySelector('.btn-alltime')
+const refreshDBBtn = document.querySelector('.btn-refresh')
+
+let callableBtn = true;
+
+last1DayBtn.addEventListener('click', () => {
+    console.log('bruh')
+    last1DayBtn.classList.add('headerBtnSelected')
+    last7DayBtn.classList.remove('headerBtnSelected')
+    last30DayBtn.classList.remove('headerBtnSelected')
+    allTimeBtn.classList.remove('headerBtnSelected')
+    const rows = document.querySelectorAll('.rowWrapper');
+    for(let i = 0; i < rows.length; i++) {
+        tableContainer.removeChild(rows[i])
+    }
+    let timestamp = Date.now()
+    timestamp = timestamp - 24 * 60 * 60 * 1000
+    let year =  moment(timestamp).format('y')
+    let month = moment(timestamp).format('M')
+    let dayOfMonth = moment(timestamp).format('D')
+    console.log(year, month, dayOfMonth)
+    showCurrentAssetsSinceDate(year, month, dayOfMonth)
+})
+last7DayBtn.addEventListener('click', () => {
+    last1DayBtn.classList.remove('headerBtnSelected')
+    last7DayBtn.classList.add('headerBtnSelected')
+    last30DayBtn.classList.remove('headerBtnSelected')
+    allTimeBtn.classList.remove('headerBtnSelected')
+    const rows = document.querySelectorAll('.rowWrapper');
+    for(let i = 0; i < rows.length; i++) {
+        tableContainer.removeChild(rows[i])
+    }
+    let timestamp = Date.now()
+    timestamp = timestamp - 7 * 24 * 60 * 60 * 1000
+    let year =  moment(timestamp).format('y')
+    let month = moment(timestamp).format('M')
+    let dayOfMonth = moment(timestamp).format('D')
+    console.log(year, month, dayOfMonth)
+    showCurrentAssetsSinceDate(year, month, dayOfMonth)
+})
+last30DayBtn.addEventListener('click', () => {
+    last1DayBtn.classList.remove('headerBtnSelected')
+    last7DayBtn.classList.remove('headerBtnSelected')
+    last30DayBtn.classList.add('headerBtnSelected')
+    allTimeBtn.classList.remove('headerBtnSelected')
+    const rows = document.querySelectorAll('.rowWrapper');
+    for(let i = 0; i < rows.length; i++) {
+        tableContainer.removeChild(rows[i])
+    }
+    let timestamp = Date.now()
+    timestamp = timestamp - 30 * 24 * 60 * 60 * 1000
+    let year =  moment(timestamp).format('y')
+    let month = moment(timestamp).format('M')
+    let dayOfMonth = moment(timestamp).format('D')
+    console.log(year, month, dayOfMonth)
+    showCurrentAssetsSinceDate(year, month, dayOfMonth)
+})
+allTimeBtn.addEventListener('click', () => {
+    last1DayBtn.classList.remove('headerBtnSelected')
+    last7DayBtn.classList.remove('headerBtnSelected')
+    last30DayBtn.classList.remove('headerBtnSelected')
+    allTimeBtn.classList.add('headerBtnSelected')
+    const rows = document.querySelectorAll('.rowWrapper');
+    for(let i = 0; i < rows.length; i++) {
+        tableContainer.removeChild(rows[i])
+    }
+    let timestamp = Date.now()
+    timestamp = timestamp - 30 * 24 * 60 * 60 * 1000
+    let year =  moment(timestamp).format('y')
+    let month = moment(timestamp).format('M')
+    let dayOfMonth = moment(timestamp).format('D')
+    console.log(year, month, dayOfMonth)
+    showCurrentAssets()
+})
+refreshDBBtn.addEventListener('click', async () => {
+    last1DayBtn.classList.remove('headerBtnSelected')
+    last7DayBtn.classList.remove('headerBtnSelected')
+    last30DayBtn.classList.remove('headerBtnSelected')
+    allTimeBtn.classList.add('headerBtnSelected')
+
+    refreshDBBtn.disabled = true
+    console.log('pressing btn')
+    await axios.get(`${baseURL}/api/v1/closedTrades/refresh`, {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    });
+
+    refreshDBBtn.disabled = false
+
+    const rows = document.querySelectorAll('.rowWrapper');
+    for(let i = 0; i < rows.length; i++) {
+        tableContainer.removeChild(rows[i])
+    }
+    let timestamp = Date.now()
+    timestamp = timestamp - 30 * 24 * 60 * 60 * 1000
+    let year =  moment(timestamp).format('y')
+    let month = moment(timestamp).format('M')
+    let dayOfMonth = moment(timestamp).format('D')
+    console.log(year, month, dayOfMonth)
+    showCurrentAssets()
+})
 
 const token = localStorage.getItem('token')
 
@@ -22,11 +127,69 @@ const showCurrentAssets = async () => {
             'Authorization': `Bearer ${token}`
         }
     })
+    console.log('bro')
 
     console.log(data)
 
+    populateTable(data)
+}
+
+const showCurrentAssetsSinceDate = async (year, month, day) => {
+    const { data } = await axios.get(`${baseURL}/api/v1/closedTrades/since/${year}/${month}/${day}`, {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    })
+
+    console.log(data)
+
+    populateTable(data)
+}
+
+const populateTable = (data) => {
+    let symbolTableHeader = document.createElement('div')
+    symbolTableHeader.innerHTML = 'Symbol'
+    symbolTableHeader.classList.add('table-header', 'table-header-first')
+    
+    let directionTableHeader = document.createElement('div')
+    directionTableHeader.innerHTML = 'Direction'
+    directionTableHeader.classList.add('table-header')
+
+    let closedPnLnTableHeader = document.createElement('div')
+    closedPnLnTableHeader.innerHTML = 'Closed PnL'
+    closedPnLnTableHeader.classList.add('table-header')
+
+    let entryValueTableHeader = document.createElement('div')
+    entryValueTableHeader.innerHTML = 'Entry Value'
+    entryValueTableHeader.classList.add('table-header')
+
+    let entryPriceTableHeader = document.createElement('div')
+    entryPriceTableHeader.innerHTML = 'Entry Price'
+    entryPriceTableHeader.classList.add('table-header')
+
+    let exitPriceTableHeader = document.createElement('div')
+    exitPriceTableHeader.innerHTML = 'Exit Price'
+    exitPriceTableHeader.classList.add('table-header')
+
+    let dateTableHeader = document.createElement('div')
+    dateTableHeader.innerHTML = 'Date-Hour'
+    dateTableHeader.classList.add('table-header')
+
+    let exchangeTableHeader = document.createElement('div')
+    exchangeTableHeader.innerHTML = 'Exchange'
+    exchangeTableHeader.classList.add('table-header', 'table-header-last')
+
+    tableContainer.innerHTML = '' // remove all children
+    tableContainer.appendChild(symbolTableHeader)
+    tableContainer.appendChild(directionTableHeader)
+    tableContainer.appendChild(closedPnLnTableHeader)
+    tableContainer.appendChild(entryValueTableHeader)
+    tableContainer.appendChild(entryPriceTableHeader)
+    tableContainer.appendChild(exitPriceTableHeader)
+    tableContainer.appendChild(dateTableHeader)
+    tableContainer.appendChild(exchangeTableHeader)
+
     let totalValue = 0;
-    mainContainer.innerHTML = '' // remove all children
     for(let i = 0; i < data.length; i++) {
         totalValue = (Number) (totalValue + (Number)(data[i].closedPnL));
 
