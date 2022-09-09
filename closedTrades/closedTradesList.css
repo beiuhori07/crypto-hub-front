@@ -195,7 +195,7 @@
 }
 
 .table-btn {
-    
+    cursor: pointer;
     font-size: 0.8rem;
     border: 1px solid black;
     border-radius: 6px;
@@ -207,4 +207,30 @@
 
 .table-btn:hover {
     filter: brightness(80%);
+}
+
+.customTimeInput {
+    width: 7vw;
+}
+
+.table-div {
+    font-size: 0.8rem;
+    border: 1px solid black;
+    border-radius: 6px;
+    padding-left: 1vw;
+    padding-right: 1vw;
+    padding-top: 0.7vh;
+    padding-bottom: 0.7vh;
+}
+
+.table-custom-btn {
+    cursor: pointer;
+    margin-left: 0.5vw;
+    font-size: 0.8rem;
+    border: 1px solid black;
+    border-radius: 6px;
+    /* padding-left: 1vw;
+    padding-right: 1vw;
+    padding-top: 0.7vh;
+    padding-bottom: 0.7vh; */
 }

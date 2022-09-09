@@ -11,6 +11,10 @@ const last30DayBtn = document.querySelector('.btn-last30day')
 const allTimeBtn = document.querySelector('.btn-alltime')
 const refreshDBBtn = document.querySelector('.btn-refresh')
 const refreshTableBtn = document.querySelector('.btn-refresh-table')
+const customTimeBtn = document.querySelector('.table-custom-btn')
+const customTimeDiv = document.querySelector('.btn-customtime')
+const dateInput1 = document.querySelector('.input1')
+const dateInput2 = document.querySelector('.input2')
 
 let callableBtn = true;
 
@@ -19,6 +23,7 @@ last1DayBtn.addEventListener('click', () => {
     last7DayBtn.classList.remove('headerBtnSelected')
     last30DayBtn.classList.remove('headerBtnSelected')
     allTimeBtn.classList.remove('headerBtnSelected')
+    customTimeDiv.classList.remove('headerBtnSelected')
     const rows = document.querySelectorAll('.rowWrapper');
     for(let i = 0; i < rows.length; i++) {
         tableContainer.removeChild(rows[i])
@@ -35,7 +40,8 @@ last7DayBtn.addEventListener('click', () => {
     last1DayBtn.classList.remove('headerBtnSelected')
     last7DayBtn.classList.add('headerBtnSelected')
     last30DayBtn.classList.remove('headerBtnSelected')
-    allTimeBtn.classList.remove('headerBtnSelected')
+    allTimeBtn.classList.remove('headerBtnSelected') 
+    customTimeDiv.classList.remove('headerBtnSelected') 
     const rows = document.querySelectorAll('.rowWrapper');
     for(let i = 0; i < rows.length; i++) {
         tableContainer.removeChild(rows[i])
@@ -53,6 +59,7 @@ last30DayBtn.addEventListener('click', () => {
     last7DayBtn.classList.remove('headerBtnSelected')
     last30DayBtn.classList.add('headerBtnSelected')
     allTimeBtn.classList.remove('headerBtnSelected')
+    customTimeDiv.classList.remove('headerBtnSelected')
     const rows = document.querySelectorAll('.rowWrapper');
     for(let i = 0; i < rows.length; i++) {
         tableContainer.removeChild(rows[i])
@@ -70,16 +77,11 @@ allTimeBtn.addEventListener('click', () => {
     last7DayBtn.classList.remove('headerBtnSelected')
     last30DayBtn.classList.remove('headerBtnSelected')
     allTimeBtn.classList.add('headerBtnSelected')
+    customTimeDiv.classList.remove('headerBtnSelected')
     const rows = document.querySelectorAll('.rowWrapper');
     for(let i = 0; i < rows.length; i++) {
         tableContainer.removeChild(rows[i])
     }
-    let timestamp = Date.now()
-    timestamp = timestamp - 30 * 24 * 60 * 60 * 1000
-    let year =  moment(timestamp).format('y')
-    let month = moment(timestamp).format('M')
-    let dayOfMonth = moment(timestamp).format('D')
-    console.log(year, month, dayOfMonth)
     showCurrentAssets()
 })
 refreshDBBtn.addEventListener('click', async () => {
@@ -87,6 +89,7 @@ refreshDBBtn.addEventListener('click', async () => {
     last7DayBtn.classList.remove('headerBtnSelected')
     last30DayBtn.classList.remove('headerBtnSelected')
     allTimeBtn.classList.add('headerBtnSelected')
+    customTimeDiv.classList.remove('headerBtnSelected')
 
     refreshDBBtn.disabled = true
     console.log('pressing btn')
@@ -109,11 +112,98 @@ refreshDBBtn.addEventListener('click', async () => {
     
 })
 refreshTableBtn.addEventListener('click', () => {
+
+    if(last1DayBtn.classList.contains('headerBtnSelected')) {
+        last1DayBtn.classList.add('headerBtnSelected')
+        last7DayBtn.classList.remove('headerBtnSelected')
+        last30DayBtn.classList.remove('headerBtnSelected')
+        allTimeBtn.classList.remove('headerBtnSelected')
+        customTimeDiv.classList.remove('headerBtnSelected')
+
+        let timestamp = Date.now()
+        timestamp = timestamp - 1 * 24 * 60 * 60 * 1000
+        let year =  moment(timestamp).format('y')
+        let month = moment(timestamp).format('M')
+        let dayOfMonth = moment(timestamp).format('D')
+        console.log(year, month, dayOfMonth)
+        showCurrentAssetsSinceDate(year, month, dayOfMonth)
+    } else {
+        if(last7DayBtn.classList.contains('headerBtnSelected')) {
+            last1DayBtn.classList.remove('headerBtnSelected')
+            last7DayBtn.classList.add('headerBtnSelected')
+            last30DayBtn.classList.remove('headerBtnSelected')
+            allTimeBtn.classList.remove('headerBtnSelected')
+            customTimeDiv.classList.remove('headerBtnSelected')
+
+            let timestamp = Date.now()
+            timestamp = timestamp - 7 * 24 * 60 * 60 * 1000
+            let year =  moment(timestamp).format('y')
+            let month = moment(timestamp).format('M')
+            let dayOfMonth = moment(timestamp).format('D')
+            console.log(year, month, dayOfMonth)
+            showCurrentAssetsSinceDate(year, month, dayOfMonth)
+        } else {
+            if(last30DayBtn.classList.contains('headerBtnSelected')) {
+
+                last1DayBtn.classList.remove('headerBtnSelected')
+                last7DayBtn.classList.remove('headerBtnSelected')
+                last30DayBtn.classList.add('headerBtnSelected')
+                allTimeBtn.classList.remove('headerBtnSelected')
+                customTimeDiv.classList.remove('headerBtnSelected')
+
+                let timestamp = Date.now()
+                timestamp = timestamp - 30 * 24 * 60 * 60 * 1000
+                let year =  moment(timestamp).format('y')
+                let month = moment(timestamp).format('M')
+                let dayOfMonth = moment(timestamp).format('D')
+                console.log(year, month, dayOfMonth)
+                showCurrentAssetsSinceDate(year, month, dayOfMonth)
+            
+            } else {
+                // all time
+                last1DayBtn.classList.remove('headerBtnSelected')
+                last7DayBtn.classList.remove('headerBtnSelected')
+                last30DayBtn.classList.remove('headerBtnSelected')
+                allTimeBtn.classList.add('headerBtnSelected')
+                customTimeDiv.classList.remove('headerBtnSelected')
+                showCurrentAssets();
+            }
+        }
+    }
+})
+customTimeBtn.addEventListener('click', () => {
     last1DayBtn.classList.remove('headerBtnSelected')
     last7DayBtn.classList.remove('headerBtnSelected')
     last30DayBtn.classList.remove('headerBtnSelected')
-    allTimeBtn.classList.add('headerBtnSelected')
-    showCurrentAssets();
+    allTimeBtn.classList.remove('headerBtnSelected')
+    customTimeDiv.classList.add('headerBtnSelected')
+    const rows = document.querySelectorAll('.rowWrapper');
+    for(let i = 0; i < rows.length; i++) {
+        tableContainer.removeChild(rows[i])
+    }
+
+    console.log(dateInput1.value)
+    console.log(dateInput2.value)
+    
+    let firstValues = dateInput1.value.split('-')
+    let secondValues = dateInput2.value.split('-')
+    
+    console.log(firstValues)
+    console.log(secondValues)
+    if(firstValues.length == 3 && secondValues.length == 3) {
+        showCurrentAssetsSinceUntilDate(firstValues[0], firstValues[1], firstValues[2], secondValues[0], secondValues[1], secondValues[2])
+    } else {
+        console.log('date not selected properly')
+    }
+
+
+    // let timestamp = Date.now()
+    // timestamp = timestamp - 30 * 24 * 60 * 60 * 1000
+    // let year =  moment(timestamp).format('y')
+    // let month = moment(timestamp).format('M')
+    // let dayOfMonth = moment(timestamp).format('D')
+    // console.log(year, month, dayOfMonth)
+    // showCurrentAssetsSinceDate(year, month, dayOfMonth)
 })
 
 const token = localStorage.getItem('token')
@@ -140,6 +230,18 @@ const showCurrentAssets = async () => {
 
 const showCurrentAssetsSinceDate = async (year, month, day) => {
     const { data } = await axios.get(`${baseURL}/api/v1/closedTrades/since/${year}/${month}/${day}`, {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    })
+
+    console.log(data)
+
+    populateTable(data)
+}
+
+const showCurrentAssetsSinceUntilDate = async (year1, month1, day1, year2, month2, day2) => {
+    const { data } = await axios.get(`${baseURL}/api/v1/closedTrades/since/until/${year1}/${month1}/${day1}/to/${year2}/${month2}/${day2}`, {
         headers: {
             'Authorization': `Bearer ${token}`
         }
@@ -341,7 +443,23 @@ mainMenuBtn.addEventListener('click', () => {
 
 const main = async () => {
     verifyUser()
-    showCurrentAssets()
+
+    // activate last 30 Days functionality
+    last1DayBtn.classList.remove('headerBtnSelected')
+    last7DayBtn.classList.remove('headerBtnSelected')
+    last30DayBtn.classList.add('headerBtnSelected')
+    allTimeBtn.classList.remove('headerBtnSelected')
+    const rows = document.querySelectorAll('.rowWrapper');
+    for(let i = 0; i < rows.length; i++) {
+        tableContainer.removeChild(rows[i])
+    }
+    let timestamp = Date.now()
+    timestamp = timestamp - 30 * 24 * 60 * 60 * 1000
+    let year =  moment(timestamp).format('y')
+    let month = moment(timestamp).format('M')
+    let dayOfMonth = moment(timestamp).format('D')
+    console.log(year, month, dayOfMonth)
+    showCurrentAssetsSinceDate(year, month, dayOfMonth)
 }
 
 main()
