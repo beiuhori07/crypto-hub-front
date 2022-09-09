@@ -172,6 +172,11 @@
     border: none
 }
 
+.btnIsRed {
+    background-color: #f50909;
+    border: none
+}
+
 .table-buttons-container {
     /* border: 1px solid yellow; */
     width: 73vw;
@@ -198,4 +203,8 @@
     padding-right: 1vw;
     padding-top: 0.7vh;
     padding-bottom: 0.7vh;
+}
+
+.table-btn:hover {
+    filter: brightness(80%);
 }

@@ -10,6 +10,7 @@ const last7DayBtn = document.querySelector('.btn-last7day')
 const last30DayBtn = document.querySelector('.btn-last30day')
 const allTimeBtn = document.querySelector('.btn-alltime')
 const refreshDBBtn = document.querySelector('.btn-refresh')
+const refreshTableBtn = document.querySelector('.btn-refresh-table')
 
 let callableBtn = true;
 
@@ -90,25 +91,30 @@ refreshDBBtn.addEventListener('click', async () => {
 
     refreshDBBtn.disabled = true
     console.log('pressing btn')
-    await axios.get(`${baseURL}/api/v1/closedTrades/refresh`, {
-        headers: {
-            'Authorization': `Bearer ${token}`
-        }
-    });
 
-    refreshDBBtn.disabled = false
+    // await axios.get(`${baseURL}/api/v1/closedTrades/refresh`, {
+    //     headers: {
+    //         'Authorization': `Bearer ${token}`
+    //     }
+    // });
 
-    const rows = document.querySelectorAll('.rowWrapper');
-    for(let i = 0; i < rows.length; i++) {
-        tableContainer.removeChild(rows[i])
-    }
-    let timestamp = Date.now()
-    timestamp = timestamp - 30 * 24 * 60 * 60 * 1000
-    let year =  moment(timestamp).format('y')
-    let month = moment(timestamp).format('M')
-    let dayOfMonth = moment(timestamp).format('D')
-    console.log(year, month, dayOfMonth)
-    showCurrentAssets()
+    refreshDBBtn.innerHTML = 'Refresh database ( disabled 5 minutes )<br>This action takes 2 minutes !'
+    refreshDBBtn.classList.add('btnIsRed')
+    setTimeout(() => {
+        console.log('done waiting 5 min')
+        refreshDBBtn.innerHTML = 'Refresh database'
+        refreshDBBtn.classList.remove('btnIsRed')
+        refreshDBBtn.disabled = false
+    }, 5 * 60 * 1000)
+
+    
+})
+refreshTableBtn.addEventListener('click', () => {
+    last1DayBtn.classList.remove('headerBtnSelected')
+    last7DayBtn.classList.remove('headerBtnSelected')
+    last30DayBtn.classList.remove('headerBtnSelected')
+    allTimeBtn.classList.add('headerBtnSelected')
+    showCurrentAssets();
 })
 
 const token = localStorage.getItem('token')
