@@ -15,6 +15,7 @@ const customTimeBtn = document.querySelector('.table-custom-btn')
 const customTimeDiv = document.querySelector('.btn-customtime')
 const dateInput1 = document.querySelector('.input1')
 const dateInput2 = document.querySelector('.input2')
+const chartContainer = document.querySelector('.chart-conatiner')
 
 let callableBtn = true;
 
@@ -196,14 +197,6 @@ customTimeBtn.addEventListener('click', () => {
         console.log('date not selected properly')
     }
 
-
-    // let timestamp = Date.now()
-    // timestamp = timestamp - 30 * 24 * 60 * 60 * 1000
-    // let year =  moment(timestamp).format('y')
-    // let month = moment(timestamp).format('M')
-    // let dayOfMonth = moment(timestamp).format('D')
-    // console.log(year, month, dayOfMonth)
-    // showCurrentAssetsSinceDate(year, month, dayOfMonth)
 })
 
 const token = localStorage.getItem('token')
@@ -226,6 +219,7 @@ const showCurrentAssets = async () => {
     console.log(data)
 
     populateTable(data)
+    populateChart(data, new Date(2022, 3, 11), new Date())
 }
 
 const showCurrentAssetsSinceDate = async (year, month, day) => {
@@ -238,6 +232,7 @@ const showCurrentAssetsSinceDate = async (year, month, day) => {
     console.log(data)
 
     populateTable(data)
+    populateChart(data, new Date(year, month - 1, day), new Date())
 }
 
 const showCurrentAssetsSinceUntilDate = async (year1, month1, day1, year2, month2, day2) => {
@@ -250,6 +245,78 @@ const showCurrentAssetsSinceUntilDate = async (year1, month1, day1, year2, month
     console.log(data)
 
     populateTable(data)
+    populateChart(data, new Date(year1, month1 - 1, day1), new Date(year2, month2 - 1, day2))
+}
+
+const populateChart = (tradesArray, dateSince, dateUntil) => {
+    
+    let labels = []
+    let totalPnL = 0;
+    let PnLArray = []
+
+    let daysDiff = Math.abs(Math.ceil(((dateSince.getTime() - dateUntil.getTime()) / (24 * 60 * 60 * 1000))))
+    console.log('days diff = ', daysDiff)
+    for(let k = daysDiff; k >= 0; k --) {
+        timestamp = dateUntil.getTime()
+        timestamp = timestamp - k * 24 * 60 * 60 * 1000
+
+        year =  (Number)(moment(timestamp).format('y'))
+        month =  (Number)(moment(timestamp).format('M'))
+        dayOfMonth =  (Number)(moment(timestamp).format('D'))
+        
+        labels.push(`${dayOfMonth}/${month}`)
+
+        let foundArray = tradesArray.filter(e => (e.time.year == year && e.time.month == month  && e.time.dayOfMonth == dayOfMonth))
+        if(foundArray.length == 0) {
+            if(k == daysDiff) {
+                PnLArray = [0]
+            }
+            PnLArray = [...PnLArray, PnLArray[PnLArray.length - 1]]
+        } else {
+            for(let t = 0; t < foundArray.length; t++) {
+                totalPnL = totalPnL + foundArray[t].closedPnL
+            }
+            PnLArray = [...PnLArray, totalPnL]
+        }
+    }
+
+    console.log(labels)
+    console.log(PnLArray)
+    console.log(totalPnL)
+    
+    const data = {
+        labels: labels,
+        datasets: [{
+            label: `Closed Trades PnL in the last ${daysDiff} days`,
+            backgroundColor: 'rgb(255, 99, 132)',
+            borderColor: 'rgb(255, 99, 132)',
+            data: PnLArray,
+        }]
+    };
+
+    const config = {
+        type: 'line',
+        data: data,
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            elements: {
+                line: {
+                    cubicInterpolationMode: 'monotone'
+                }
+            }
+        }
+    };
+    
+    chartContainer.innerHTML = ''
+    let newCanvas = document.createElement('canvas')
+    newCanvas.id = 'myChart'
+    chartContainer.appendChild(newCanvas)
+    
+    const myChart = new Chart(
+        document.getElementById('myChart'),
+        config
+    );
 }
 
 const populateTable = (data) => {
@@ -441,6 +508,14 @@ mainMenuBtn.addEventListener('click', () => {
 })
 
 
+
+
+
+
+
+
+
+
 const main = async () => {
     verifyUser()
 
@@ -459,6 +534,11 @@ const main = async () => {
     let month = moment(timestamp).format('M')
     let dayOfMonth = moment(timestamp).format('D')
     console.log(year, month, dayOfMonth)
+
+    let date = new Date(year, month - 1, dayOfMonth)
+    console.log(`date = `, date)
+    console.log(Math.abs(Math.ceil(((date.getTime() - Date.now() )/ (24 * 60 * 60 * 1000)))))
+
     showCurrentAssetsSinceDate(year, month, dayOfMonth)
 }
 
