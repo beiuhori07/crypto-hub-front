@@ -15,7 +15,6 @@ const refreshTableBtn = document.querySelector('.btn-refresh-table')
 let callableBtn = true;
 
 last1DayBtn.addEventListener('click', () => {
-    console.log('bruh')
     last1DayBtn.classList.add('headerBtnSelected')
     last7DayBtn.classList.remove('headerBtnSelected')
     last30DayBtn.classList.remove('headerBtnSelected')
@@ -92,11 +91,11 @@ refreshDBBtn.addEventListener('click', async () => {
     refreshDBBtn.disabled = true
     console.log('pressing btn')
 
-    // await axios.get(`${baseURL}/api/v1/closedTrades/refresh`, {
-    //     headers: {
-    //         'Authorization': `Bearer ${token}`
-    //     }
-    // });
+    await axios.get(`${baseURL}/api/v1/closedTrades/refresh`, {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    });
 
     refreshDBBtn.innerHTML = 'Refresh database ( disabled 5 minutes )<br>This action takes 2 minutes !'
     refreshDBBtn.classList.add('btnIsRed')
@@ -133,7 +132,6 @@ const showCurrentAssets = async () => {
             'Authorization': `Bearer ${token}`
         }
     })
-    console.log('bro')
 
     console.log(data)
 
