@@ -16,8 +16,72 @@ const customTimeDiv = document.querySelector('.btn-customtime')
 const dateInput1 = document.querySelector('.input1')
 const dateInput2 = document.querySelector('.input2')
 const chartContainer = document.querySelector('.chart-conatiner')
+const symbolListInput = document.querySelector('.symbol-list-input')
+const symbolListDataList = document.querySelector('.symbolList-datalist')
+const symbolSearchBtn = document.querySelector('.table-symbol-btn')
 
 let callableBtn = true;
+
+symbolSearchBtn.addEventListener('click', () => {
+    let symbolSelected = symbolListInput.value
+    if(last1DayBtn.classList.contains('headerBtnSelected')) {
+        last1DayBtn.classList.add('headerBtnSelected')
+        last7DayBtn.classList.remove('headerBtnSelected')
+        last30DayBtn.classList.remove('headerBtnSelected')
+        allTimeBtn.classList.remove('headerBtnSelected')
+        customTimeDiv.classList.remove('headerBtnSelected')
+
+        let timestamp = Date.now()
+        timestamp = timestamp - 1 * 24 * 60 * 60 * 1000
+        let year =  moment(timestamp).format('y')
+        let month = moment(timestamp).format('M')
+        let dayOfMonth = moment(timestamp).format('D')
+        console.log(year, month, dayOfMonth)
+        showCurrentAssetsSinceDateBySymbol(year, month, dayOfMonth, symbolSelected)
+    } else {
+        if(last7DayBtn.classList.contains('headerBtnSelected')) {
+            last1DayBtn.classList.remove('headerBtnSelected')
+            last7DayBtn.classList.add('headerBtnSelected')
+            last30DayBtn.classList.remove('headerBtnSelected')
+            allTimeBtn.classList.remove('headerBtnSelected')
+            customTimeDiv.classList.remove('headerBtnSelected')
+
+            let timestamp = Date.now()
+            timestamp = timestamp - 7 * 24 * 60 * 60 * 1000
+            let year =  moment(timestamp).format('y')
+            let month = moment(timestamp).format('M')
+            let dayOfMonth = moment(timestamp).format('D')
+            console.log(year, month, dayOfMonth)
+            showCurrentAssetsSinceDateBySymbol(year, month, dayOfMonth, symbolSelected)
+        } else {
+            if(last30DayBtn.classList.contains('headerBtnSelected')) {
+
+                last1DayBtn.classList.remove('headerBtnSelected')
+                last7DayBtn.classList.remove('headerBtnSelected')
+                last30DayBtn.classList.add('headerBtnSelected')
+                allTimeBtn.classList.remove('headerBtnSelected')
+                customTimeDiv.classList.remove('headerBtnSelected')
+
+                let timestamp = Date.now()
+                timestamp = timestamp - 30 * 24 * 60 * 60 * 1000
+                let year =  moment(timestamp).format('y')
+                let month = moment(timestamp).format('M')
+                let dayOfMonth = moment(timestamp).format('D')
+                console.log(year, month, dayOfMonth)
+                showCurrentAssetsSinceDateBySymbol(year, month, dayOfMonth, symbolSelected)
+            
+            } else {
+                // all time
+                last1DayBtn.classList.remove('headerBtnSelected')
+                last7DayBtn.classList.remove('headerBtnSelected')
+                last30DayBtn.classList.remove('headerBtnSelected')
+                allTimeBtn.classList.add('headerBtnSelected')
+                customTimeDiv.classList.remove('headerBtnSelected')
+                showCurrentAssetsBySymbol(symbolSelected);
+            }
+        }
+    }
+})
 
 last1DayBtn.addEventListener('click', () => {
     last1DayBtn.classList.add('headerBtnSelected')
@@ -101,7 +165,7 @@ refreshDBBtn.addEventListener('click', async () => {
         }
     });
 
-    refreshDBBtn.innerHTML = 'Refresh database ( disabled 5 minutes )<br>This action takes 2 minutes !'
+    refreshDBBtn.innerHTML = 'Refresh database (disabled 5 minutes)<br>This action takes 2 minutes !'
     refreshDBBtn.classList.add('btnIsRed')
     setTimeout(() => {
         console.log('done waiting 5 min')
@@ -222,6 +286,19 @@ const showCurrentAssets = async () => {
     populateChart(data, new Date(2022, 3, 11), new Date())
 }
 
+const showCurrentAssetsBySymbol = async (symbol) => {
+    const { data } = await axios.get(`${baseURL}/api/v1/closedTrades/${symbol}`, {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    })
+
+    console.log(data)
+
+    populateTable(data)
+    populateChart(data, new Date(2022, 3, 11), new Date())
+}
+
 const showCurrentAssetsSinceDate = async (year, month, day) => {
     const { data } = await axios.get(`${baseURL}/api/v1/closedTrades/since/${year}/${month}/${day}`, {
         headers: {
@@ -235,8 +312,34 @@ const showCurrentAssetsSinceDate = async (year, month, day) => {
     populateChart(data, new Date(year, month - 1, day), new Date())
 }
 
+const showCurrentAssetsSinceDateBySymbol = async (year, month, day, symbol) => {
+    const { data } = await axios.get(`${baseURL}/api/v1/closedTrades/since/${year}/${month}/${day}/${symbol}`, {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    })
+
+    console.log(data)
+
+    populateTable(data)
+    populateChart(data, new Date(year, month - 1, day), new Date())
+}
+
 const showCurrentAssetsSinceUntilDate = async (year1, month1, day1, year2, month2, day2) => {
     const { data } = await axios.get(`${baseURL}/api/v1/closedTrades/since/until/${year1}/${month1}/${day1}/to/${year2}/${month2}/${day2}`, {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    })
+
+    console.log(data)
+
+    populateTable(data)
+    populateChart(data, new Date(year1, month1 - 1, day1), new Date(year2, month2 - 1, day2))
+}
+
+const showCurrentAssetsSinceUntilDateBySymbol = async (year1, month1, day1, year2, month2, day2, symbol) => {
+    const { data } = await axios.get(`${baseURL}/api/v1/closedTrades/since/until/${year1}/${month1}/${day1}/to/${year2}/${month2}/${day2}/${symbol}`, {
         headers: {
             'Authorization': `Bearer ${token}`
         }
@@ -482,19 +585,39 @@ const populateTable = (data) => {
     mainContainer.appendChild(tableContainer)
 }
 
+const getSymbolList = async () => {
+    const { data } = await axios.get(`${baseURL}/api/v1/closedTrades/symbol/list`, {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        },   
+    })
+    console.log('bro')
+
+    return data
+}
+
+const addOptionsToSelectSymbol = async (symbolList) => {
+    symbolListDataList.innerHTML = ''
+    for(let i = 0; i < symbolList.length; i++) {
+        let option = document.createElement('option')
+        option.value = symbolList[i]
+        option.innerHTML = symbolList[i]
+        option.classList.add('option-symbol')
+        symbolListDataList.appendChild(option)
+    }
+}
 
 const verifyUser = async () => {
 
     // console.log(token)
     try {
 
-        const { data, status } = await axios.post(`${baseURL}/api/v1/auth/verify`, {} , {
+        const { data } = await axios.post(`${baseURL}/api/v1/auth/verify`, {} , {
             headers: {
                 'Authorization': `Bearer ${token}`
             },   
         })
         console.log(data)
-        // console.log(status)
     } catch (error) {   
         if(error.response.status == 401) {
             location.href = '../index.html';
@@ -503,16 +626,10 @@ const verifyUser = async () => {
 
 }
 
+
 mainMenuBtn.addEventListener('click', () => {
     location.href = '../mainMenu/mainMenu.html'
 })
-
-
-
-
-
-
-
 
 
 
@@ -534,12 +651,16 @@ const main = async () => {
     let month = moment(timestamp).format('M')
     let dayOfMonth = moment(timestamp).format('D')
     console.log(year, month, dayOfMonth)
-
+    
     let date = new Date(year, month - 1, dayOfMonth)
     console.log(`date = `, date)
     console.log(Math.abs(Math.ceil(((date.getTime() - Date.now() )/ (24 * 60 * 60 * 1000)))))
-
+    
     showCurrentAssetsSinceDate(year, month, dayOfMonth)
+    
+    let symbolList = await getSymbolList()
+    console.log(symbolList)
+    addOptionsToSelectSymbol(symbolList)
 }
 
 main()

@@ -178,7 +178,7 @@
 }
 
 .table-buttons-container {
-    /* border: 1px solid yellow; */
+    border: 1px solid yellow;
     width: 73vw;
     position: relative;
     /* top: 2vh; */
@@ -245,4 +245,10 @@
     padding-bottom: 1vh;
     /* padding-left: 0.5vw;
     padding-right: 0.5vw; */
+}
+.symbol-list-input {
+    width: 10vw;
+}
+.option-symbol {
+    width: 3vw;
 }
