@@ -178,7 +178,7 @@
 }
 
 .table-buttons-container {
-    border: 1px solid yellow;
+    /* border: 1px solid yellow; */
     width: 73vw;
     position: relative;
     /* top: 2vh; */
