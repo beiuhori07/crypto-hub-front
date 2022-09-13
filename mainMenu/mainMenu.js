@@ -18,6 +18,8 @@ const tradingDBBtnHeader = document.querySelector('.header-btn-tradingdb')
 
 const tradingDBInfoNumber = document.querySelector('.value-1-line-2')
 const tradingDBInfoValue = document.querySelector('.value-2-line-2')
+const assetsInfoBalance = document.querySelector('.value-1-line-1')
+const assetsInfo24hChange = document.querySelector('.value-2-line-1')
 
 const token = localStorage.getItem('token')
 
@@ -114,6 +116,18 @@ const start = async () => {
     };
 }
 
+const initAssetsGeneralInfo = async () => {
+    const { data } = await axios.get(`${baseURL}/api/v1/generalInfo/currentAssets`, {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    })
+
+    console.log(data)
+    assetsInfoBalance.innerHTML = `${(Number)(data.balance).toFixed(2)}$`
+    assetsInfo24hChange.innerHTML = `${(Number)(data.priceChange24h).toFixed(2)}%`
+}
+
 const initTradingDBGeneralInfo = async () => {
     const { data } = await axios.get(`${baseURL}/api/v1/generalInfo/closedTrades`, {
         headers: {
@@ -149,6 +163,7 @@ const main = async () => {
     verifyUser()
     start()
     initTradingDBGeneralInfo()
+    initAssetsGeneralInfo()
 }
 
 main()
