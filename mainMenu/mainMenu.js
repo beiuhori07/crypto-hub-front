@@ -126,6 +126,11 @@ const initAssetsGeneralInfo = async () => {
     console.log(data)
     assetsInfoBalance.innerHTML = `${(Number)(data.balance).toFixed(2)}$`
     assetsInfo24hChange.innerHTML = `${(Number)(data.priceChange24h).toFixed(2)}%`
+
+    if((Number)(data.priceChange24h).toFixed(2) > 0) {
+        assetsInfo24hChange.classList.add('textIsGreen')
+        assetsInfoBalance.classList.add('textIsGreen')
+    }
 }
 
 const initTradingDBGeneralInfo = async () => {

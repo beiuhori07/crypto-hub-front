@@ -28,6 +28,28 @@
         </div>
     </div>
     <div class="main-container">
+        <div class="chart-conatiner">
+            <canvas id="myChart"></canvas>
+        </div>
+        <div class="table-buttons-container">
+            <button class="table-btn btn-refresh">Refresh database</button>
+            <button class="table-btn btn-refresh-table">Refresh table</button>
+            <button class="table-btn btn-last1day">Last day</button>
+            <button class="table-btn btn-last7day">Last 7 days</button>
+            <button class="table-btn btn-last30day">Last 30 days</button>
+            <button class="table-btn btn-alltime">All time</button>
+            <div class="table-div btn-customtime">Custom &nbsp&nbsp&nbsp<input type="date" class="customTimeInput input1">&nbsp&nbsp&nbsp to &nbsp&nbsp&nbsp<input type="date" class="customTimeInput input2"> <button class="table-custom-btn">Go</button></div>
+        </div>
+        <div class="table-buttons-container">
+            <div class="table-div btn-symbol-search-container">Symbol &nbsp&nbsp&nbsp
+                <input type="text" class="symbol-list-input" name="symbolList" list="symbolList">
+                    <datalist class="symbolList-datalist" id="symbolList">
+                        <!-- <option value="Boston">
+                        <option value="Cambridge"> -->
+                    </datalist>
+                <button class="table-symbol-btn">Go</button>
+            </div>
+        </div>
         <div class="assets-table-container">
             <!-- <div class="rowWrapper-header"> -->
                 <div class="table-header table-header-first">Symbol</div>
@@ -49,6 +71,8 @@
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="assetsCurrent.js"></script>
 </body>
 </html>

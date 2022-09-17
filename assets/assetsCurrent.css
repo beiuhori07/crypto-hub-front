@@ -164,3 +164,85 @@
     background-color: #00519D;
     border: none
 }
+
+
+.btnIsRed {
+    background-color: #f50909;
+    border: none
+}
+
+.table-buttons-container {
+    /* border: 1px solid yellow; */
+    width: 73vw;
+    position: relative;
+    /* top: 2vh; */
+    left: calc(50% - 36.5vw);
+    font-size: 0.9rem;
+    font-weight: 100;
+    /* border: 1px solid red; */
+    border-radius: 10px;
+    margin-top: 1.5vh;
+    margin-bottom: 3vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 1vw;
+}
+
+.table-btn {
+    cursor: pointer;
+    font-size: 0.8rem;
+    border: 1px solid black;
+    border-radius: 6px;
+    padding-left: 1vw;
+    padding-right: 1vw;
+    padding-top: 0.7vh;
+    padding-bottom: 0.7vh;
+}
+
+.table-btn:hover {
+    filter: brightness(80%);
+}
+
+.customTimeInput {
+    width: 7vw;
+}
+
+.table-div {
+    font-size: 0.8rem;
+    border: 1px solid black;
+    border-radius: 6px;
+    padding-left: 1vw;
+    padding-right: 1vw;
+    padding-top: 0.7vh;
+    padding-bottom: 0.7vh;
+}
+
+.table-custom-btn {
+    cursor: pointer;
+    margin-left: 0.5vw;
+    font-size: 0.8rem;
+    border: 1px solid black;
+    border-radius: 6px;
+}
+
+.chart-conatiner {
+    position: relative;
+    margin-top: 2.5vh;
+    margin-bottom: 2vh;
+    left: calc(50% - 36.5vw);
+    width: 73vw;
+    /* height: 50vh; */
+    border: 1px solid black;
+    border-radius: 7px;
+    padding-top: 1vh;
+    padding-bottom: 1vh;
+    /* padding-left: 0.5vw;
+    padding-right: 0.5vw; */
+}
+.symbol-list-input {
+    width: 10vw;
+}
+.option-symbol {
+    width: 3vw;
+}
