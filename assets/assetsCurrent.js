@@ -425,13 +425,15 @@ const reduceArray1h = (assetsArray, year, month, dayOfMonth) => {
     let symbols = [assetsArray[0].symbol]
     let assets = [assetsArray[0]]
     let sum = assetsArray[0].currentValue;
+    let ok = 0
     for(let i = 0; i < assetsArray.length - 1; i++) {
         if(assetsArray[i].time.dayOfYear == assetsArray[i+1].time.dayOfYear && assetsArray[i].time.hour == assetsArray[i+1].time.hour) {
             sum = sum + assetsArray[i+1].currentValue
             symbols = [...symbols, assetsArray[i+1].symbol]
             assets = [...assets, assetsArray[i+1]]
+            ok = 1
         } else {
-            if(sum == 0) {
+            if(ok == 0) {
                 sum = assetsArray[i].currentValue
                 symbols = [assetsArray[i].symbol]
                 assets = [assetsArray[i]]
@@ -444,12 +446,13 @@ const reduceArray1h = (assetsArray, year, month, dayOfMonth) => {
             }
             labels = [...labels, `${assetsArray[i].time.dayOfMonth}/${assetsArray[i].time.month}-${assetsArray[i].time.hour}`]
             reducedArray = [...reducedArray, object]
-            sum = 0
-            symbols = []
-            assets = []
+            sum = assetsArray[i+1].currentValue
+            symbols = [assetsArray[i+1].symbol]
+            assets = [assetsArray[i+1]]
+            ok = 0
         }
     }
-    if(sum == 0) {
+    if(ok == 0) {
         let object = {
             symbols: [assetsArray[assetsArray.length - 1].symbol],
             assets: [assetsArray[assetsArray.length - 1]],
