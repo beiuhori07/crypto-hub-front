@@ -15,7 +15,7 @@ const customTimeBtn = document.querySelector('.table-custom-btn')
 const customTimeDiv = document.querySelector('.btn-customtime')
 const dateInput1 = document.querySelector('.input1')
 const dateInput2 = document.querySelector('.input2')
-const chartContainer = document.querySelector('.chart-conatiner')
+const chartContainer = document.querySelector('.chartAreaWrapper2')
 const symbolListInput = document.querySelector('.symbol-list-input')
 const symbolListDataList = document.querySelector('.symbolList-datalist')
 const symbolSearchBtn = document.querySelector('.table-symbol-btn')
@@ -414,13 +414,91 @@ const populateChart = (tradesArray, dateSince, dateUntil) => {
     
     chartContainer.innerHTML = ''
     let newCanvas = document.createElement('canvas')
-    newCanvas.id = 'myChart'
+    newCanvas.id = 'chart-Test'
     chartContainer.appendChild(newCanvas)
     
-    const myChart = new Chart(
-        document.getElementById('myChart'),
-        config
-    );
+    // const myChart = new Chart(
+    //     document.getElementById('chart-Test'),
+    //     config
+    // );
+
+    var rectangleSet = false;
+    
+        var canvasTest = document.getElementById('chart-Test');
+        // var chartTest = new Chart(canvasTest, {});
+        chartTest = new Chart(canvasTest, {
+            type: 'line',
+            data: data,
+            maintainAspectRatio: false,
+            responsive: true,
+            options: {
+                elements: {
+                    line: {
+                        cubicInterpolationMode: 'monotone'
+                    }
+                },
+                tooltips: {
+                    titleFontSize: 0,
+                    titleMarginBottom: 0,
+                    bodyFontSize: 12
+                },
+                legend: {
+                    display: false
+                },
+                scales: {
+                    xAxes: {
+                        ticks: {
+                            fontSize: 12,
+                            display: false
+                        }
+                    },
+                    yAxes: {
+                        ticks: {
+                            fontSize: 12,
+                            beginAtZero: true
+                        }
+                    }
+                },
+                animation: {
+                    onComplete: function () {
+                        if (!rectangleSet) {
+                            var scale = window.devicePixelRatio;                       
+                            
+                            console.log('this is chartTest', chartTest)
+                            var sourceCanvas = chartTest.ctx.canvas;
+                            var copyWidth = chartTest.scales.yAxes.width - 10;
+                            var copyHeight = chartTest.scales.yAxes.height + chartTest.scales.yAxes.top + 10;
+    
+                            var targetCtx = document.getElementById("axis-Test").getContext("2d");
+    
+                            targetCtx.scale(scale, scale);
+                            targetCtx.canvas.width = copyWidth * scale;
+                            targetCtx.canvas.height = copyHeight * scale;
+    
+                            targetCtx.canvas.style.width = `${copyWidth}px`;
+                            targetCtx.canvas.style.height = `${copyHeight}px`;
+                            targetCtx.drawImage(sourceCanvas, 0, 0, copyWidth * scale, copyHeight * scale, 0, 0, copyWidth * scale, copyHeight * scale);
+    
+                            var sourceCtx = sourceCanvas.getContext('2d');
+    
+                            // Normalize coordinate system to use css pixels.
+    
+                            sourceCtx.clearRect(0, 0, copyWidth * scale, copyHeight * scale);
+                            rectangleSet = true;
+                        }
+                    },
+                    onProgress: function () {
+                        if (rectangleSet === true) {
+                            var copyWidth = chartTest.scales.yAxes.width;
+                            var copyHeight = chartTest.scales.yAxes.height + chartTest.scales.yAxes.top + 10;
+    
+                            var sourceCtx = chartTest.ctx.canvas.getContext('2d');
+                            sourceCtx.clearRect(0, 0, copyWidth, copyHeight);
+                        }
+                    }
+                }
+            }
+        })
 }
 
 const populateTable = (data) => {
@@ -633,6 +711,78 @@ mainMenuBtn.addEventListener('click', () => {
 })
 
 
+const makeChartScrollable = () => {
+        var rectangleSet = false;
+    
+        var canvasTest = document.querySelector('#chart-Test');
+        var chartTest = new Chart(canvasTest, {
+            type: 'bar',
+            data: chartData,
+            maintainAspectRatio: false,
+            responsive: true,
+            options: {
+                tooltips: {
+                    titleFontSize: 0,
+                    titleMarginBottom: 0,
+                    bodyFontSize: 12
+                },
+                legend: {
+                    display: false
+                },
+                scales: {
+                    xAxes: [{
+                        ticks: {
+                            fontSize: 12,
+                            display: false
+                        }
+                    }],
+                    yAxes: [{
+                        ticks: {
+                            fontSize: 12,
+                            beginAtZero: true
+                        }
+                    }]
+                },
+                animation: {
+                    onComplete: function () {
+                        if (!rectangleSet) {
+                            var scale = window.devicePixelRatio;                       
+    
+                            var sourceCanvas = chartTest.chart.canvas;
+                            var copyWidth = chartTest.scales['y-axis-0'].width - 10;
+                            var copyHeight = chartTest.scales['y-axis-0'].height + chartTest.scales['y-axis-0'].top + 10;
+    
+                            var targetCtx = document.getElementById("axis-Test").getContext("2d");
+    
+                            targetCtx.scale(scale, scale);
+                            targetCtx.canvas.width = copyWidth * scale;
+                            targetCtx.canvas.height = copyHeight * scale;
+    
+                            targetCtx.canvas.style.width = `${copyWidth}px`;
+                            targetCtx.canvas.style.height = `${copyHeight}px`;
+                            targetCtx.drawImage(sourceCanvas, 0, 0, copyWidth * scale, copyHeight * scale, 0, 0, copyWidth * scale, copyHeight * scale);
+    
+                            var sourceCtx = sourceCanvas.getContext('2d');
+    
+                            // Normalize coordinate system to use css pixels.
+    
+                            sourceCtx.clearRect(0, 0, copyWidth * scale, copyHeight * scale);
+                            rectangleSet = true;
+                        }
+                    },
+                    onProgress: function () {
+                        if (rectangleSet === true) {
+                            var copyWidth = chartTest.scales['y-axis-0'].width;
+                            var copyHeight = chartTest.scales['y-axis-0'].height + chartTest.scales['y-axis-0'].top + 10;
+    
+                            var sourceCtx = chartTest.chart.canvas.getContext('2d');
+                            sourceCtx.clearRect(0, 0, copyWidth, copyHeight);
+                        }
+                    }
+                }
+            }
+        })
+}
 
 const main = async () => {
     verifyUser()

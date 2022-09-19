@@ -232,7 +232,14 @@
     border-radius: 6px;
 }
 
-.chart-conatiner {
+.symbol-list-input {
+    width: 10vw;
+}
+.option-symbol {
+    width: 3vw;
+}
+
+.chartWrapper {
     position: relative;
     margin-top: 2.5vh;
     margin-bottom: 2vh;
@@ -246,9 +253,15 @@
     /* padding-left: 0.5vw;
     padding-right: 0.5vw; */
 }
-.symbol-list-input {
-    width: 10vw;
+
+.chartWrapper > canvas {
+    position: absolute;
+    left: 0;
+    top: 0;
+    pointer-events: none;
 }
-.option-symbol {
-    width: 3vw;
+
+.chartAreaWrapper {
+    /* width: 600px; */
+    overflow-x: scroll;
 }
