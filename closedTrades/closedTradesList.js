@@ -373,8 +373,9 @@ const populateChart = (tradesArray, dateSince, dateUntil) => {
         if(foundArray.length == 0) {
             if(k == daysDiff) {
                 PnLArray = [0]
+            } else {
+                PnLArray = [...PnLArray, PnLArray[PnLArray.length - 1]]
             }
-            PnLArray = [...PnLArray, PnLArray[PnLArray.length - 1]]
         } else {
             for(let t = 0; t < foundArray.length; t++) {
                 totalPnL = totalPnL + foundArray[t].closedPnL
