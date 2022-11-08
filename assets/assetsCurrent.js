@@ -297,7 +297,7 @@ const showCurrentAssets = async () => {
     totalText.innerHTML = `total balance`
     
     let totalValueDiv = document.createElement('div')
-    totalValueDiv.innerHTML = `${totalValue}$`
+    totalValueDiv.innerHTML = `${(Number)(totalValue).toFixed(2)}$`
     totalValueDiv.classList.add('table-footer')
     
     let rowWrapperFooter = document.createElement('div')
@@ -427,7 +427,7 @@ const reduceArray1h = (assetsArray, year, month, dayOfMonth) => {
     let sum = assetsArray[0].currentValue;
     let ok = 0
     for(let i = 0; i < assetsArray.length - 1; i++) {
-        if(assetsArray[i].time.dayOfYear == assetsArray[i+1].time.dayOfYear && assetsArray[i].time.hour == assetsArray[i+1].time.hour) {
+        if((assetsArray[i].time.dayOfYear == assetsArray[i+1].time.dayOfYear) && (assetsArray[i].time.hour == assetsArray[i+1].time.hour)) { // add year
             sum = sum + assetsArray[i+1].currentValue
             symbols = [...symbols, assetsArray[i+1].symbol]
             assets = [...assets, assetsArray[i+1]]
@@ -450,6 +450,7 @@ const reduceArray1h = (assetsArray, year, month, dayOfMonth) => {
             symbols = [assetsArray[i+1].symbol]
             assets = [assetsArray[i+1]]
             ok = 0
+            console.log('brooooooo')
         }
     }
     if(ok == 0) {

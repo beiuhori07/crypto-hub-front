@@ -239,7 +239,7 @@
     width: 3vw;
 }
 
-.chartWrapper {
+.chart-conatiner {
     position: relative;
     margin-top: 2.5vh;
     margin-bottom: 2vh;
@@ -252,16 +252,4 @@
     padding-bottom: 1vh;
     /* padding-left: 0.5vw;
     padding-right: 0.5vw; */
-}
-
-.chartWrapper > canvas {
-    position: absolute;
-    left: 0;
-    top: 0;
-    pointer-events: none;
-}
-
-.chartAreaWrapper {
-    /* width: 600px; */
-    overflow-x: scroll;
 }

@@ -15,7 +15,7 @@ const customTimeBtn = document.querySelector('.table-custom-btn')
 const customTimeDiv = document.querySelector('.btn-customtime')
 const dateInput1 = document.querySelector('.input1')
 const dateInput2 = document.querySelector('.input2')
-const chartContainer = document.querySelector('.chartAreaWrapper2')
+const chartContainer = document.querySelector('.chart-conatiner')
 const symbolListInput = document.querySelector('.symbol-list-input')
 const symbolListDataList = document.querySelector('.symbolList-datalist')
 const symbolSearchBtn = document.querySelector('.table-symbol-btn')
@@ -84,6 +84,7 @@ symbolSearchBtn.addEventListener('click', () => {
 })
 
 last1DayBtn.addEventListener('click', () => {
+    let symbolSelected = symbolListInput.value
     last1DayBtn.classList.add('headerBtnSelected')
     last7DayBtn.classList.remove('headerBtnSelected')
     last30DayBtn.classList.remove('headerBtnSelected')
@@ -99,9 +100,15 @@ last1DayBtn.addEventListener('click', () => {
     let month = moment(timestamp).format('M')
     let dayOfMonth = moment(timestamp).format('D')
     console.log(year, month, dayOfMonth)
-    showCurrentAssetsSinceDate(year, month, dayOfMonth)
+    if(symbolListInput != "") {
+        showCurrentAssetsSinceDateBySymbol(year, month, dayOfMonth, symbolSelected)
+    } else {
+        showCurrentAssetsSinceDate(year, month, dayOfMonth)
+    }
+
 })
 last7DayBtn.addEventListener('click', () => {
+    let symbolSelected = symbolListInput.value
     last1DayBtn.classList.remove('headerBtnSelected')
     last7DayBtn.classList.add('headerBtnSelected')
     last30DayBtn.classList.remove('headerBtnSelected')
@@ -117,9 +124,14 @@ last7DayBtn.addEventListener('click', () => {
     let month = moment(timestamp).format('M')
     let dayOfMonth = moment(timestamp).format('D')
     console.log(year, month, dayOfMonth)
-    showCurrentAssetsSinceDate(year, month, dayOfMonth)
+    if(symbolListInput != "") {
+        showCurrentAssetsSinceDateBySymbol(year, month, dayOfMonth, symbolSelected)
+    } else {
+        showCurrentAssetsSinceDate(year, month, dayOfMonth)
+    }
 })
 last30DayBtn.addEventListener('click', () => {
+    let symbolSelected = symbolListInput.value
     last1DayBtn.classList.remove('headerBtnSelected')
     last7DayBtn.classList.remove('headerBtnSelected')
     last30DayBtn.classList.add('headerBtnSelected')
@@ -135,9 +147,14 @@ last30DayBtn.addEventListener('click', () => {
     let month = moment(timestamp).format('M')
     let dayOfMonth = moment(timestamp).format('D')
     console.log(year, month, dayOfMonth)
-    showCurrentAssetsSinceDate(year, month, dayOfMonth)
+    if(symbolListInput != "") {
+        showCurrentAssetsSinceDateBySymbol(year, month, dayOfMonth, symbolSelected)
+    } else {
+        showCurrentAssetsSinceDate(year, month, dayOfMonth)
+    }
 })
 allTimeBtn.addEventListener('click', () => {
+    let symbolSelected = symbolListInput.value
     last1DayBtn.classList.remove('headerBtnSelected')
     last7DayBtn.classList.remove('headerBtnSelected')
     last30DayBtn.classList.remove('headerBtnSelected')
@@ -147,7 +164,11 @@ allTimeBtn.addEventListener('click', () => {
     for(let i = 0; i < rows.length; i++) {
         tableContainer.removeChild(rows[i])
     }
-    showCurrentAssets()
+    if(symbolListInput != "") {
+        showCurrentAssetsBySymbol(symbolSelected);
+    } else {
+        showCurrentAssets();
+    }
 })
 refreshDBBtn.addEventListener('click', async () => {
     last1DayBtn.classList.remove('headerBtnSelected')
@@ -237,6 +258,7 @@ refreshTableBtn.addEventListener('click', () => {
     }
 })
 customTimeBtn.addEventListener('click', () => {
+    let symbolSelected = symbolListInput.value
     last1DayBtn.classList.remove('headerBtnSelected')
     last7DayBtn.classList.remove('headerBtnSelected')
     last30DayBtn.classList.remove('headerBtnSelected')
@@ -256,7 +278,11 @@ customTimeBtn.addEventListener('click', () => {
     console.log(firstValues)
     console.log(secondValues)
     if(firstValues.length == 3 && secondValues.length == 3) {
-        showCurrentAssetsSinceUntilDate(firstValues[0], firstValues[1], firstValues[2], secondValues[0], secondValues[1], secondValues[2])
+        if(symbolListInput != "") {
+            showCurrentAssetsSinceUntilDateBySymbol(firstValues[0], firstValues[1], firstValues[2], secondValues[0], secondValues[1], secondValues[2], symbolSelected)
+        } else {
+            showCurrentAssetsSinceUntilDate(firstValues[0], firstValues[1], firstValues[2], secondValues[0], secondValues[1], secondValues[2])
+        }
     } else {
         console.log('date not selected properly')
     }
@@ -416,88 +442,11 @@ const populateChart = (tradesArray, dateSince, dateUntil) => {
     newCanvas.id = 'chart-Test'
     chartContainer.appendChild(newCanvas)
     
-    // const myChart = new Chart(
-    //     document.getElementById('chart-Test'),
-    //     config
-    // );
+    const myChart = new Chart(
+        document.getElementById('chart-Test'),
+        config
+    );
 
-    var rectangleSet = false;
-    
-        var canvasTest = document.getElementById('chart-Test');
-        // var chartTest = new Chart(canvasTest, {});
-        chartTest = new Chart(canvasTest, {
-            type: 'line',
-            data: data,
-            maintainAspectRatio: false,
-            responsive: true,
-            options: {
-                elements: {
-                    line: {
-                        cubicInterpolationMode: 'monotone'
-                    }
-                },
-                tooltips: {
-                    titleFontSize: 0,
-                    titleMarginBottom: 0,
-                    bodyFontSize: 12
-                },
-                legend: {
-                    display: false
-                },
-                scales: {
-                    xAxes: {
-                        ticks: {
-                            fontSize: 12,
-                            display: false
-                        }
-                    },
-                    yAxes: {
-                        ticks: {
-                            fontSize: 12,
-                            beginAtZero: true
-                        }
-                    }
-                },
-                animation: {
-                    onComplete: function () {
-                        if (!rectangleSet) {
-                            var scale = window.devicePixelRatio;                       
-                            
-                            console.log('this is chartTest', chartTest)
-                            var sourceCanvas = chartTest.ctx.canvas;
-                            var copyWidth = chartTest.scales.yAxes.width - 10;
-                            var copyHeight = chartTest.scales.yAxes.height + chartTest.scales.yAxes.top + 10;
-    
-                            var targetCtx = document.getElementById("axis-Test").getContext("2d");
-    
-                            targetCtx.scale(scale, scale);
-                            targetCtx.canvas.width = copyWidth * scale;
-                            targetCtx.canvas.height = copyHeight * scale;
-    
-                            targetCtx.canvas.style.width = `${copyWidth}px`;
-                            targetCtx.canvas.style.height = `${copyHeight}px`;
-                            targetCtx.drawImage(sourceCanvas, 0, 0, copyWidth * scale, copyHeight * scale, 0, 0, copyWidth * scale, copyHeight * scale);
-    
-                            var sourceCtx = sourceCanvas.getContext('2d');
-    
-                            // Normalize coordinate system to use css pixels.
-    
-                            sourceCtx.clearRect(0, 0, copyWidth * scale, copyHeight * scale);
-                            rectangleSet = true;
-                        }
-                    },
-                    onProgress: function () {
-                        if (rectangleSet === true) {
-                            var copyWidth = chartTest.scales.yAxes.width;
-                            var copyHeight = chartTest.scales.yAxes.height + chartTest.scales.yAxes.top + 10;
-    
-                            var sourceCtx = chartTest.ctx.canvas.getContext('2d');
-                            sourceCtx.clearRect(0, 0, copyWidth, copyHeight);
-                        }
-                    }
-                }
-            }
-        })
 }
 
 const populateTable = (data) => {
@@ -710,78 +659,6 @@ mainMenuBtn.addEventListener('click', () => {
 })
 
 
-const makeChartScrollable = () => {
-        var rectangleSet = false;
-    
-        var canvasTest = document.querySelector('#chart-Test');
-        var chartTest = new Chart(canvasTest, {
-            type: 'bar',
-            data: chartData,
-            maintainAspectRatio: false,
-            responsive: true,
-            options: {
-                tooltips: {
-                    titleFontSize: 0,
-                    titleMarginBottom: 0,
-                    bodyFontSize: 12
-                },
-                legend: {
-                    display: false
-                },
-                scales: {
-                    xAxes: [{
-                        ticks: {
-                            fontSize: 12,
-                            display: false
-                        }
-                    }],
-                    yAxes: [{
-                        ticks: {
-                            fontSize: 12,
-                            beginAtZero: true
-                        }
-                    }]
-                },
-                animation: {
-                    onComplete: function () {
-                        if (!rectangleSet) {
-                            var scale = window.devicePixelRatio;                       
-    
-                            var sourceCanvas = chartTest.chart.canvas;
-                            var copyWidth = chartTest.scales['y-axis-0'].width - 10;
-                            var copyHeight = chartTest.scales['y-axis-0'].height + chartTest.scales['y-axis-0'].top + 10;
-    
-                            var targetCtx = document.getElementById("axis-Test").getContext("2d");
-    
-                            targetCtx.scale(scale, scale);
-                            targetCtx.canvas.width = copyWidth * scale;
-                            targetCtx.canvas.height = copyHeight * scale;
-    
-                            targetCtx.canvas.style.width = `${copyWidth}px`;
-                            targetCtx.canvas.style.height = `${copyHeight}px`;
-                            targetCtx.drawImage(sourceCanvas, 0, 0, copyWidth * scale, copyHeight * scale, 0, 0, copyWidth * scale, copyHeight * scale);
-    
-                            var sourceCtx = sourceCanvas.getContext('2d');
-    
-                            // Normalize coordinate system to use css pixels.
-    
-                            sourceCtx.clearRect(0, 0, copyWidth * scale, copyHeight * scale);
-                            rectangleSet = true;
-                        }
-                    },
-                    onProgress: function () {
-                        if (rectangleSet === true) {
-                            var copyWidth = chartTest.scales['y-axis-0'].width;
-                            var copyHeight = chartTest.scales['y-axis-0'].height + chartTest.scales['y-axis-0'].top + 10;
-    
-                            var sourceCtx = chartTest.chart.canvas.getContext('2d');
-                            sourceCtx.clearRect(0, 0, copyWidth, copyHeight);
-                        }
-                    }
-                }
-            }
-        })
-}
 
 const main = async () => {
     verifyUser()
