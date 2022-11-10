@@ -141,7 +141,7 @@ const initTradingDBGeneralInfo = async () => {
     })
     console.log(data)
     tradingDBInfoNumber.innerHTML = data.numberOfTrades
-    tradingDBInfoValue.innerHTML = `${data.totalValueOfTrades}$`
+    tradingDBInfoValue.innerHTML = `${(Number)(data.totalValueOfTrades).toFixed(2)}$`
 }
 
 const verifyUser = async () => {
