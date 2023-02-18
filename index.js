@@ -1,4 +1,6 @@
 const baseURL = 'https://crypto-hub-api.herokuapp.com/'
+// const baseURL = 'http://localhost:3000'
+
 
 const userInput = document.querySelector('.login-username')
 const passInput = document.querySelector('.login-password')

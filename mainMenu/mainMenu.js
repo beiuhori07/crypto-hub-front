@@ -1,5 +1,5 @@
 const baseURL = 'https://crypto-hub-api.herokuapp.com'
-const baseURLlocal = 'http://localhost:3000'
+// const baseURL = 'http://localhost:3000'
 
 const btcPricePanel = document.querySelector('.coin-last-price-1')
 const ethPricePanel = document.querySelector('.coin-last-price-2')

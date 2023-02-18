@@ -1,4 +1,5 @@
 const baseURL = 'https://crypto-hub-api.herokuapp.com'
+// const baseURL = 'localhost:3000'
 
 const mainContainer = document.querySelector('.main-container')
 const tableContainer = document.querySelector('.assets-table-container')
