@@ -23,6 +23,7 @@ const assetsInfoBalance = document.querySelector('.value-1-line-1')
 const assetsInfo24hChange = document.querySelector('.value-2-line-1')
 
 const token = localStorage.getItem('token')
+const userId = localStorage.getItem('userId')
 
 
 AssetsBtn.addEventListener('click', () => {
@@ -118,7 +119,7 @@ const start = async () => {
 }
 
 const initAssetsGeneralInfo = async () => {
-    const { data } = await axios.get(`${baseURL}/api/v1/generalInfo/currentAssets`, {
+    const { data } = await axios.get(`${baseURL}/api/v1/generalInfo/currentAssets/${userId}`, {
         headers: {
             'Authorization': `Bearer ${token}`
         }
