@@ -421,6 +421,7 @@ const populateChart = (assetsArray, dateSince, dateUntil, interval) => {
 }
 
 const reduceArray1h = (assetsArray, year, month, dayOfMonth) => {
+    if(assetsArray.length == 0) return {}
     let reducedArray = []
     let labels = []
     let symbols = [assetsArray[0].symbol]
