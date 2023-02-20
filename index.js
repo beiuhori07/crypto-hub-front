@@ -1,4 +1,4 @@
-const baseURL = 'https://crypto-hub-api.herokuapp.com/'
+const baseURL = 'https://crypto-hub-api.herokuapp.com'
 // const baseURL = 'http://localhost:3000'
 
 
@@ -10,9 +10,10 @@ btn.addEventListener('click', async () => {
     const email = userInput.value
     const password = passInput.value
     try {
-        const { data } = await axios.post(`${baseURL}api/v1/auth/login`, { email, password })
+        const { data } = await axios.post(`${baseURL}/api/v1/auth/login`, { email, password })
         console.log(data);
         localStorage.setItem('token', data.token)
+        localStorage.setItem('userId', data.user.id)
         location.href = './mainMenu/mainMenu.html'
     } catch (error) {
         console.log(error);
@@ -25,9 +26,10 @@ document.addEventListener('keydown', async (e) => {
         const email = userInput.value
         const password = passInput.value
         try {
-            const { data } = await axios.post(`${baseURL}api/v1/auth/login`, { email, password })
+            const { data } = await axios.post(`${baseURL}/api/v1/auth/login`, { email, password })
             console.log(data);
             localStorage.setItem('token', data.token)
+            localStorage.setItem('userId', data.user.id)
             location.href = './mainMenu/mainMenu.html'
         } catch (error) {
             console.log(error);
