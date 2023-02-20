@@ -22,6 +22,7 @@ const symbolListDataList = document.querySelector('.symbolList-datalist')
 const symbolSearchBtn = document.querySelector('.table-symbol-btn')
 
 const token = localStorage.getItem('token')
+const userId = localStorage.getItem('userId')
 
 
 symbolSearchBtn.addEventListener('click', () => {
@@ -189,7 +190,7 @@ tradingDBBtnHeader.addEventListener('click', () => {
 })
 
 const showCurrentAssets = async () => {
-    const { data } = await axios.get(`${baseURL}/api/v1/assetsCurrent`, {
+    const { data } = await axios.get(`${baseURL}/api/v1/assetsCurrent/${userId}`, {
         headers: {
             'Authorization': `Bearer ${token}`
         }
@@ -325,7 +326,7 @@ const showCurrentAssets = async () => {
 }
 
 const showAssets = async (interval) => {
-    const { data } = await axios.get(`${baseURL}/api/v1/assetsByTime/${interval}`, {
+    const { data } = await axios.get(`${baseURL}/api/v1/assetsByTime/${interval}/${userId}`, {
         headers: {
             'Authorization': `Bearer ${token}`
         }
