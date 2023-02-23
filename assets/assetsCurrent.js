@@ -244,7 +244,7 @@ const showCurrentAssets = async () => {
 
         let symbol = document.createElement('div')
         symbol.classList.add('table-entry')
-        symbol.innerHTML = `${data[i].symbol}`
+        symbol.innerHTML = `${data[i].name}`
 
         let value = document.createElement('div')
         value.innerHTML = `${data[i].currentValue}$`
