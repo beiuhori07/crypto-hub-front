@@ -112,7 +112,7 @@ last1DayBtn.addEventListener('click', () => {
     let month = moment(timestamp).format('M')
     let dayOfMonth = moment(timestamp).format('D')
     console.log(year, month, dayOfMonth)
-    if(symbolListInput != "") {
+    if(symbolSelected != "") {
         showCurrentAssetsSinceDateBySymbol(year, month, dayOfMonth, symbolSelected)
     } else {
         showCurrentAssetsSinceDate(year, month, dayOfMonth)
@@ -136,7 +136,7 @@ last7DayBtn.addEventListener('click', () => {
     let month = moment(timestamp).format('M')
     let dayOfMonth = moment(timestamp).format('D')
     console.log(year, month, dayOfMonth)
-    if(symbolListInput != "") {
+    if(symbolSelected != "") {
         showCurrentAssetsSinceDateBySymbol(year, month, dayOfMonth, symbolSelected)
     } else {
         showCurrentAssetsSinceDate(year, month, dayOfMonth)
@@ -159,7 +159,7 @@ last30DayBtn.addEventListener('click', () => {
     let month = moment(timestamp).format('M')
     let dayOfMonth = moment(timestamp).format('D')
     console.log(year, month, dayOfMonth)
-    if(symbolListInput != "") {
+    if(symbolSelected != "") {
         showCurrentAssetsSinceDateBySymbol(year, month, dayOfMonth, symbolSelected)
     } else {
         showCurrentAssetsSinceDate(year, month, dayOfMonth)
@@ -176,7 +176,7 @@ allTimeBtn.addEventListener('click', () => {
     for(let i = 0; i < rows.length; i++) {
         tableContainer.removeChild(rows[i])
     }
-    if(symbolListInput != "") {
+    if(symbolSelected != "") {
         showCurrentAssetsBySymbol(symbolSelected);
     } else {
         showCurrentAssets();
@@ -290,7 +290,7 @@ customTimeBtn.addEventListener('click', () => {
     console.log(firstValues)
     console.log(secondValues)
     if(firstValues.length == 3 && secondValues.length == 3) {
-        if(symbolListInput != "") {
+        if(symbolSelected != "") {
             showCurrentAssetsSinceUntilDateBySymbol(firstValues[0], firstValues[1], firstValues[2], secondValues[0], secondValues[1], secondValues[2], symbolSelected)
         } else {
             showCurrentAssetsSinceUntilDate(firstValues[0], firstValues[1], firstValues[2], secondValues[0], secondValues[1], secondValues[2])
