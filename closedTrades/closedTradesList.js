@@ -23,6 +23,17 @@ const symbolSearchBtn = document.querySelector('.table-symbol-btn')
 
 let callableBtn = true;
 
+const token = localStorage.getItem('token')
+const userId = localStorage.getItem('userId')
+
+LogoutBtn.addEventListener('click', () => {
+    localStorage.removeItem('token')
+    location.href = '../index.html'
+})
+AssetsBtnHeader.addEventListener('click', () => {
+    location.href = '../assets/assetsCurrent.html'
+})
+
 symbolSearchBtn.addEventListener('click', () => {
     let symbolSelected = symbolListInput.value
     if(last1DayBtn.classList.contains('headerBtnSelected')) {
@@ -288,16 +299,6 @@ customTimeBtn.addEventListener('click', () => {
         console.log('date not selected properly')
     }
 
-})
-
-const token = localStorage.getItem('token')
-
-LogoutBtn.addEventListener('click', () => {
-    localStorage.removeItem('token')
-    location.href = '../index.html'
-})
-AssetsBtnHeader.addEventListener('click', () => {
-    location.href = '../assets/assetsCurrent.html'
 })
 
 const showCurrentAssets = async () => {
