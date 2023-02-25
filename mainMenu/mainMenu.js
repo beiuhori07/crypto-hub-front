@@ -136,7 +136,7 @@ const initAssetsGeneralInfo = async () => {
 }
 
 const initTradingDBGeneralInfo = async () => {
-    const { data } = await axios.get(`${baseURL}/api/v1/generalInfo/closedTrades`, {
+    const { data } = await axios.get(`${baseURL}/api/v1/generalInfo/closedTrades/${userId}`, {
         headers: {
             'Authorization': `Bearer ${token}`
         }

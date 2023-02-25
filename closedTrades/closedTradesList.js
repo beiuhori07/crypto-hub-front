@@ -181,7 +181,7 @@ refreshDBBtn.addEventListener('click', async () => {
     refreshDBBtn.disabled = true
     console.log('pressing btn')
 
-    await axios.get(`${baseURL}/api/v1/closedTrades/refresh`, {
+    await axios.get(`${baseURL}/api/v1/closedTrades/refresh/${userId}`, {
         headers: {
             'Authorization': `Bearer ${token}`
         }
@@ -301,7 +301,7 @@ AssetsBtnHeader.addEventListener('click', () => {
 })
 
 const showCurrentAssets = async () => {
-    const { data } = await axios.get(`${baseURL}/api/v1/closedTrades`, {
+    const { data } = await axios.get(`${baseURL}/api/v1/closedTrades/${userId}`, {
         headers: {
             'Authorization': `Bearer ${token}`
         }
@@ -314,7 +314,7 @@ const showCurrentAssets = async () => {
 }
 
 const showCurrentAssetsBySymbol = async (symbol) => {
-    const { data } = await axios.get(`${baseURL}/api/v1/closedTrades/${symbol}`, {
+    const { data } = await axios.get(`${baseURL}/api/v1/closedTrades/${symbol}/${userId}`, {
         headers: {
             'Authorization': `Bearer ${token}`
         }
@@ -327,7 +327,7 @@ const showCurrentAssetsBySymbol = async (symbol) => {
 }
 
 const showCurrentAssetsSinceDate = async (year, month, day) => {
-    const { data } = await axios.get(`${baseURL}/api/v1/closedTrades/since/${year}/${month}/${day}`, {
+    const { data } = await axios.get(`${baseURL}/api/v1/closedTrades/since/${year}/${month}/${day}/${userId}`, {
         headers: {
             'Authorization': `Bearer ${token}`
         }
@@ -340,7 +340,7 @@ const showCurrentAssetsSinceDate = async (year, month, day) => {
 }
 
 const showCurrentAssetsSinceDateBySymbol = async (year, month, day, symbol) => {
-    const { data } = await axios.get(`${baseURL}/api/v1/closedTrades/since/${year}/${month}/${day}/${symbol}`, {
+    const { data } = await axios.get(`${baseURL}/api/v1/closedTrades/since/${year}/${month}/${day}/${symbol}/${userId}`, {
         headers: {
             'Authorization': `Bearer ${token}`
         }
@@ -353,7 +353,7 @@ const showCurrentAssetsSinceDateBySymbol = async (year, month, day, symbol) => {
 }
 
 const showCurrentAssetsSinceUntilDate = async (year1, month1, day1, year2, month2, day2) => {
-    const { data } = await axios.get(`${baseURL}/api/v1/closedTrades/since/until/${year1}/${month1}/${day1}/to/${year2}/${month2}/${day2}`, {
+    const { data } = await axios.get(`${baseURL}/api/v1/closedTrades/since/until/${year1}/${month1}/${day1}/to/${year2}/${month2}/${day2}/${userId}`, {
         headers: {
             'Authorization': `Bearer ${token}`
         }
@@ -366,7 +366,7 @@ const showCurrentAssetsSinceUntilDate = async (year1, month1, day1, year2, month
 }
 
 const showCurrentAssetsSinceUntilDateBySymbol = async (year1, month1, day1, year2, month2, day2, symbol) => {
-    const { data } = await axios.get(`${baseURL}/api/v1/closedTrades/since/until/${year1}/${month1}/${day1}/to/${year2}/${month2}/${day2}/${symbol}`, {
+    const { data } = await axios.get(`${baseURL}/api/v1/closedTrades/since/until/${year1}/${month1}/${day1}/to/${year2}/${month2}/${day2}/${symbol}/${userId}`, {
         headers: {
             'Authorization': `Bearer ${token}`
         }
@@ -614,7 +614,7 @@ const populateTable = (data) => {
 }
 
 const getSymbolList = async () => {
-    const { data } = await axios.get(`${baseURL}/api/v1/closedTrades/symbol/list`, {
+    const { data } = await axios.get(`${baseURL}/api/v1/closedTrades/symbol/list/${userId}`, {
         headers: {
             'Authorization': `Bearer ${token}`
         },   
