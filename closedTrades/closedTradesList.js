@@ -674,6 +674,8 @@ const main = async () => {
     for(let i = 0; i < rows.length; i++) {
         tableContainer.removeChild(rows[i])
     }
+
+    
     let timestamp = Date.now()
     timestamp = timestamp - 30 * 24 * 60 * 60 * 1000
     let year =  moment(timestamp).format('y')

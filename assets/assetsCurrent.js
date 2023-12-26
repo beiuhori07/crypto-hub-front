@@ -27,7 +27,7 @@ const userId = localStorage.getItem('userId')
 
 symbolSearchBtn.addEventListener('click', () => {
     let symbolSelected = symbolListInput.value
-    if(last1DayBtn.classList.contains('headerBtnSelected')) {
+    if (last1DayBtn.classList.contains('headerBtnSelected')) {
         last1DayBtn.classList.add('headerBtnSelected')
         last7DayBtn.classList.remove('headerBtnSelected')
         last30DayBtn.classList.remove('headerBtnSelected')
@@ -36,13 +36,13 @@ symbolSearchBtn.addEventListener('click', () => {
 
         let timestamp = Date.now()
         timestamp = timestamp - 1 * 24 * 60 * 60 * 1000
-        let year =  moment(timestamp).format('y')
+        let year = moment(timestamp).format('y')
         let month = moment(timestamp).format('M')
         let dayOfMonth = moment(timestamp).format('D')
         console.log(year, month, dayOfMonth)
         showAssetsSinceDateBySymbol(year, month, dayOfMonth, symbolSelected)
     } else {
-        if(last7DayBtn.classList.contains('headerBtnSelected')) {
+        if (last7DayBtn.classList.contains('headerBtnSelected')) {
             last1DayBtn.classList.remove('headerBtnSelected')
             last7DayBtn.classList.add('headerBtnSelected')
             last30DayBtn.classList.remove('headerBtnSelected')
@@ -51,13 +51,13 @@ symbolSearchBtn.addEventListener('click', () => {
 
             let timestamp = Date.now()
             timestamp = timestamp - 7 * 24 * 60 * 60 * 1000
-            let year =  moment(timestamp).format('y')
+            let year = moment(timestamp).format('y')
             let month = moment(timestamp).format('M')
             let dayOfMonth = moment(timestamp).format('D')
             console.log(year, month, dayOfMonth)
             showAssetsSinceDateBySymbol(year, month, dayOfMonth, symbolSelected)
         } else {
-            if(last30DayBtn.classList.contains('headerBtnSelected')) {
+            if (last30DayBtn.classList.contains('headerBtnSelected')) {
 
                 last1DayBtn.classList.remove('headerBtnSelected')
                 last7DayBtn.classList.remove('headerBtnSelected')
@@ -67,12 +67,12 @@ symbolSearchBtn.addEventListener('click', () => {
 
                 let timestamp = Date.now()
                 timestamp = timestamp - 30 * 24 * 60 * 60 * 1000
-                let year =  moment(timestamp).format('y')
+                let year = moment(timestamp).format('y')
                 let month = moment(timestamp).format('M')
                 let dayOfMonth = moment(timestamp).format('D')
                 console.log(year, month, dayOfMonth)
                 showAssetsSinceDateBySymbol(year, month, dayOfMonth, symbolSelected)
-            
+
             } else {
                 // all time
                 last1DayBtn.classList.remove('headerBtnSelected')
@@ -93,12 +93,12 @@ last1DayBtn.addEventListener('click', () => {
     allTimeBtn.classList.remove('headerBtnSelected')
     customTimeDiv.classList.remove('headerBtnSelected')
     const rows = document.querySelectorAll('.rowWrapper');
-    for(let i = 0; i < rows.length; i++) {
+    for (let i = 0; i < rows.length; i++) {
         tableContainer.removeChild(rows[i])
     }
     let timestamp = Date.now()
     timestamp = timestamp - 24 * 60 * 60 * 1000
-    let year =  moment(timestamp).format('y')
+    let year = moment(timestamp).format('y')
     let month = moment(timestamp).format('M')
     let dayOfMonth = moment(timestamp).format('D')
     console.log(year, month, dayOfMonth)
@@ -108,15 +108,15 @@ last7DayBtn.addEventListener('click', () => {
     last1DayBtn.classList.remove('headerBtnSelected')
     last7DayBtn.classList.add('headerBtnSelected')
     last30DayBtn.classList.remove('headerBtnSelected')
-    allTimeBtn.classList.remove('headerBtnSelected') 
-    customTimeDiv.classList.remove('headerBtnSelected') 
+    allTimeBtn.classList.remove('headerBtnSelected')
+    customTimeDiv.classList.remove('headerBtnSelected')
     const rows = document.querySelectorAll('.rowWrapper');
-    for(let i = 0; i < rows.length; i++) {
+    for (let i = 0; i < rows.length; i++) {
         tableContainer.removeChild(rows[i])
     }
     let timestamp = Date.now()
     timestamp = timestamp - 7 * 24 * 60 * 60 * 1000
-    let year =  moment(timestamp).format('y')
+    let year = moment(timestamp).format('y')
     let month = moment(timestamp).format('M')
     let dayOfMonth = moment(timestamp).format('D')
     console.log(year, month, dayOfMonth)
@@ -129,12 +129,12 @@ last30DayBtn.addEventListener('click', () => {
     allTimeBtn.classList.remove('headerBtnSelected')
     customTimeDiv.classList.remove('headerBtnSelected')
     const rows = document.querySelectorAll('.rowWrapper');
-    for(let i = 0; i < rows.length; i++) {
+    for (let i = 0; i < rows.length; i++) {
         tableContainer.removeChild(rows[i])
     }
     let timestamp = Date.now()
     timestamp = timestamp - 30 * 24 * 60 * 60 * 1000
-    let year =  moment(timestamp).format('y')
+    let year = moment(timestamp).format('y')
     let month = moment(timestamp).format('M')
     let dayOfMonth = moment(timestamp).format('D')
     console.log(year, month, dayOfMonth)
@@ -147,7 +147,7 @@ allTimeBtn.addEventListener('click', () => {
     allTimeBtn.classList.add('headerBtnSelected')
     customTimeDiv.classList.remove('headerBtnSelected')
     const rows = document.querySelectorAll('.rowWrapper');
-    for(let i = 0; i < rows.length; i++) {
+    for (let i = 0; i < rows.length; i++) {
         tableContainer.removeChild(rows[i])
     }
     showAssets()
@@ -160,19 +160,19 @@ customTimeBtn.addEventListener('click', () => {
     allTimeBtn.classList.remove('headerBtnSelected')
     customTimeDiv.classList.add('headerBtnSelected')
     const rows = document.querySelectorAll('.rowWrapper');
-    for(let i = 0; i < rows.length; i++) {
+    for (let i = 0; i < rows.length; i++) {
         tableContainer.removeChild(rows[i])
     }
 
     console.log(dateInput1.value)
     console.log(dateInput2.value)
-    
+
     let firstValues = dateInput1.value.split('-')
     let secondValues = dateInput2.value.split('-')
-    
+
     console.log(firstValues)
     console.log(secondValues)
-    if(firstValues.length == 3 && secondValues.length == 3) {
+    if (firstValues.length == 3 && secondValues.length == 3) {
         showAssetsSinceUntilDate(firstValues[0], firstValues[1], firstValues[2], secondValues[0], secondValues[1], secondValues[2])
     } else {
         console.log('date not selected properly')
@@ -209,7 +209,7 @@ const showCurrentAssets = async () => {
     let valueTableHeader = document.createElement('div')
     valueTableHeader.innerHTML = 'Value'
     valueTableHeader.classList.add('table-header')
-    
+
     let priceTableHeader = document.createElement('div')
     priceTableHeader.innerHTML = 'Price'
     priceTableHeader.classList.add('table-header')
@@ -234,12 +234,12 @@ const showCurrentAssets = async () => {
     tableContainer.appendChild(quantityTableHeader)
     tableContainer.appendChild(exchangeTableHeader)
 
-    for(let i = 0; i < data.length; i++) {
-        totalValue = (Number) (totalValue + (Number)(data[i].currentValue));
+    for (let i = 0; i < data.length; i++) {
+        totalValue = (Number)(totalValue + (Number)(data[i].currentValue));
 
         let rowWrapper = document.createElement('div')
         rowWrapper.classList.add('rowWrapper')
-        
+
 
 
         let symbol = document.createElement('div')
@@ -256,7 +256,7 @@ const showCurrentAssets = async () => {
 
         let priceChange = document.createElement('div')
         let priceChangeValue = (Number)(data[i].priceChange24h).toFixed(2)
-        if(priceChangeValue >= 0) {
+        if (priceChangeValue >= 0) {
             priceChange.classList.remove('textIsRed')
             priceChange.classList.remove('textIsGreen')
             price.classList.remove('textIsRed')
@@ -281,7 +281,7 @@ const showCurrentAssets = async () => {
         let exchange = document.createElement('div')
         exchange.innerHTML = `${data[i].exchange}`
         exchange.classList.add('table-entry')
-        
+
 
 
         rowWrapper.appendChild(symbol);
@@ -296,14 +296,14 @@ const showCurrentAssets = async () => {
     let totalText = document.createElement('div')
     totalText.classList.add('table-footer', 'table-footer-first')
     totalText.innerHTML = `total balance`
-    
+
     let totalValueDiv = document.createElement('div')
     totalValueDiv.innerHTML = `${(Number)(totalValue).toFixed(2)}$`
     totalValueDiv.classList.add('table-footer')
-    
+
     let rowWrapperFooter = document.createElement('div')
     rowWrapperFooter.classList.add('rowWrapper-footer')
-    
+
     let emptyDiv1 = document.createElement('div')
     emptyDiv1.classList.add('table-footer')
     let emptyDiv2 = document.createElement('div')
@@ -326,72 +326,71 @@ const showCurrentAssets = async () => {
 }
 
 const showAssets = async (interval) => {
-    const { data } = await axios.get(`${baseURL}/api/v1/assetsByTime/${interval}/${userId}`, {
+    // const { data } = await axios.get(`${baseURL}/api/v1/assetsByTime/${interval}/${userId}`, {
+    //     headers: {
+    //         'Authorization': `Bearer ${token}`
+    //     }
+    // })
+
+    const { data } = await axios.get(`${baseURL}/api/v1/assetsChart/entries/${userId}`, {
         headers: {
             'Authorization': `Bearer ${token}`
         }
     })
 
+    console.log('fetching chart entries...')
     console.log(data)
 
     // populateTable(data)
     populateChart(data, new Date(2022, 3, 11), new Date(), '1h')
 }
 
-const populateChart = (assetsArray, dateSince, dateUntil, interval) => {
-    
+const populateChart = (chartEntries, dateSince, dateUntil, interval) => {
+
     let labels = []
     let totalPnL = 0;
     let reducedArray = []
 
     let daysDiff = Math.abs(Math.ceil(((dateSince.getTime() - dateUntil.getTime()) / (24 * 60 * 60 * 1000))))
     console.log('days diff = ', daysDiff)
-    for(let k = daysDiff; k >= 0; k --) {
-        timestamp = dateUntil.getTime()
-        timestamp = timestamp - k * 24 * 60 * 60 * 1000
-        
-        // labels.push(`${dayOfMonth}/${month}`)
-        
-    }
-    
-            year =  (Number)(moment(timestamp).format('y'))
-            month =  (Number)(moment(timestamp).format('M'))
-            dayOfMonth =  (Number)(moment(timestamp).format('D'))
-    if(interval == '1h'){
-        let returnedObject = reduceArray1h(assetsArray, year, month, dayOfMonth)
-        reducedArray = returnedObject.reducedArray
-        labels = returnedObject.labels
-    }
-    if(interval == '4h'){
-        reducedArray = reduceArray4h(assetsArray, year, month, dayOfMonth)
-        reducedArray = returnedObject.reducedArray
-        labels = returnedObject.labels
-    }
-    if(interval == '1d'){
-        reducedArray = reduceArray1d(assetsArray, year, month, dayOfMonth)
-        reducedArray = returnedObject.reducedArray
-        labels = returnedObject.labels
-    }
-    if(interval == '1w'){
-        reducedArray = reduceArray1w(assetsArray, year, month, dayOfMonth)
-        reducedArray = returnedObject.reducedArray
-        labels = returnedObject.labels
-    }
-    let assetsValueArray = reducedArray.map(asset => asset.totalValue)
-    console.log(labels)
-    console.log('assetsValueArray = ')
-    console.log(assetsValueArray)
-    console.log('reducedArray = ')
-    console.log(reducedArray)
+
+
+    // if (interval == '1h') {
+    //     let returnedObject = reduceArray1h(assetsArray, year, month, dayOfMonth)
+    //     reducedArray = returnedObject.reducedArray
+    //     labels = returnedObject.labels
+    // }
+    // if (interval == '4h') {
+    //     reducedArray = reduceArray4h(assetsArray, year, month, dayOfMonth)
+    //     reducedArray = returnedObject.reducedArray
+    //     labels = returnedObject.labels
+    // }
+    // if (interval == '1d') {
+    //     reducedArray = reduceArray1d(assetsArray, year, month, dayOfMonth)
+    //     reducedArray = returnedObject.reducedArray
+    //     labels = returnedObject.labels
+    // }
+    // if (interval == '1w') {
+    //     reducedArray = reduceArray1w(assetsArray, year, month, dayOfMonth)
+    //     reducedArray = returnedObject.reducedArray
+    //     labels = returnedObject.labels
+    // }
+    let totalValues = chartEntries.map(entry => entry.totalValue)
+    labels = chartEntries.map(entry => entry.label)
+    // console.log(labels)
+    // console.log('assetsValueArray = ')
+    // console.log(assetsValueArray)
+    // console.log('reducedArray = ')
+    // console.log(reducedArray)
     // console.log(totalPnL)
-    
+
     const data = {
         labels: labels,
         datasets: [{
             label: `Assets value in the last ${daysDiff} days`,
             backgroundColor: 'rgb(255, 99, 132)',
             borderColor: 'rgb(255, 99, 132)',
-            data: assetsValueArray,
+            data: totalValues,
         }]
     };
 
@@ -408,12 +407,12 @@ const populateChart = (assetsArray, dateSince, dateUntil, interval) => {
             }
         }
     };
-    
+
     chartContainer.innerHTML = ''
     let newCanvas = document.createElement('canvas')
     newCanvas.id = 'myChart'
     chartContainer.appendChild(newCanvas)
-    
+
     const myChart = new Chart(
         document.getElementById('myChart'),
         config
@@ -421,7 +420,7 @@ const populateChart = (assetsArray, dateSince, dateUntil, interval) => {
 }
 
 const reduceArray1h = (assetsArray, year, month, dayOfMonth) => {
-    if(assetsArray.length == 0) { 
+    if (assetsArray.length == 0) {
         return {
             reducedArray: [],
             labels: []
@@ -433,14 +432,14 @@ const reduceArray1h = (assetsArray, year, month, dayOfMonth) => {
     let assets = [assetsArray[0]]
     let sum = assetsArray[0].currentValue;
     let ok = 0
-    for(let i = 0; i < assetsArray.length - 1; i++) {
-        if((assetsArray[i].time.dayOfYear == assetsArray[i+1].time.dayOfYear) && (assetsArray[i].time.hour == assetsArray[i+1].time.hour)) { // add year
-            sum = sum + assetsArray[i+1].currentValue
-            symbols = [...symbols, assetsArray[i+1].symbol]
-            assets = [...assets, assetsArray[i+1]]
+    for (let i = 0; i < assetsArray.length - 1; i++) {
+        if ((assetsArray[i].time.dayOfYear == assetsArray[i + 1].time.dayOfYear) && (assetsArray[i].time.hour == assetsArray[i + 1].time.hour)) { // add year
+            sum = sum + assetsArray[i + 1].currentValue
+            symbols = [...symbols, assetsArray[i + 1].symbol]
+            assets = [...assets, assetsArray[i + 1]]
             ok = 1
         } else {
-            if(ok == 0) {
+            if (ok == 0) {
                 sum = assetsArray[i].currentValue
                 symbols = [assetsArray[i].symbol]
                 assets = [assetsArray[i]]
@@ -453,14 +452,14 @@ const reduceArray1h = (assetsArray, year, month, dayOfMonth) => {
             }
             labels = [...labels, `${assetsArray[i].time.dayOfMonth}/${assetsArray[i].time.month}-${assetsArray[i].time.hour}`]
             reducedArray = [...reducedArray, object]
-            sum = assetsArray[i+1].currentValue
-            symbols = [assetsArray[i+1].symbol]
-            assets = [assetsArray[i+1]]
+            sum = assetsArray[i + 1].currentValue
+            symbols = [assetsArray[i + 1].symbol]
+            assets = [assetsArray[i + 1]]
             ok = 0
-            console.log('brooooooo')
+            // console.log('brooooooo')
         }
     }
-    if(ok == 0) {
+    if (ok == 0) {
         let object = {
             symbols: [assetsArray[assetsArray.length - 1].symbol],
             assets: [assetsArray[assetsArray.length - 1]],
@@ -497,15 +496,15 @@ const verifyUser = async () => {
     // console.log(token)
     try {
 
-        const { data, status } = await axios.post(`${baseURL}/api/v1/auth/verify`, {} , {
+        const { data, status } = await axios.post(`${baseURL}/api/v1/auth/verify`, {}, {
             headers: {
                 'Authorization': `Bearer ${token}`
-            },   
+            },
         })
         console.log(data)
         // console.log(status)
-    } catch (error) {   
-        if(error.response.status == 401) {
+    } catch (error) {
+        if (error.response.status == 401) {
             location.href = '../index.html';
         }
     }
